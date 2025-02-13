@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>para Paulina c:</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Merienda:wght@300..900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cagliostro&display=swap');
+
+        body {
+            font-family: "Merienda", serif;
+            font-weight: 400;
+            font-style: normal;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #ffffff;
+            position: relative;
+            overflow: hidden;
+            padding: 20px; /* Añadir padding para móviles */
+            
+        }
+
+        .container {
+            text-align: center;
+            z-index: 2;
+            width: 100%; /* Asegurarse de que ocupe el 100% */
+            max-width: 600px; /* Limitar el ancho máximo */
+        }
+
+        .question {
+            font-size: 6vw; /* Tamaño de fuente responsive */
+            margin-bottom: 20px;
+            color: #e83f4c;
+            font-weight: bold;
+        }
+
+        .question span {
+            color: #000000;
+            font-size: 8vw; /* Tamaño de fuente responsive */
+        }
+
+        .buttons {
+            display: flex; /* Usar flexbox para los botones */
+            justify-content: center;
+            gap: 20px; /* Espacio entre botones */
+            margin: 40px;
+        }
+
+        .button {
+            font-family: "Cagliostro", serif;
+            padding: 15px 30px; /* Ajustar padding para móviles */
+            font-size: 5vw; /* Tamaño de fuente responsive */
+            border: none;
+            border-radius: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .button:hover {
+            transition: 0.2s;
+            background-color: #f3505d;
+        }
+
+        .yes, .no {
+            background-color: #e83f4c;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .response {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .response img {
+            border-radius: 25px;
+            max-width: 100%; /* Asegurar que la imagen no exceda el ancho */
+            height: auto; /* Mantener proporciones */
+        }
+
+        .pdf-link {
+            display: block;
+            margin-top: 20px;
+            color: #e83f4c;
+        }
+
+        /* Estilo para partículas */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            animation: float 5s infinite ease-in-out;
+            opacity: 0.8;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0); }
+        }
+
+        /* Media Query para pantallas pequeñas */
+        @media (max-width: 600px) {
+            .question {
+                font-size: 5vw; /* Ajustar tamaño de fuente para pantallas pequeñas */
+            }
+
+            .question span {
+                font-size: 7vw; /* Ajustar tamaño de fuente para pantallas pequeñas */
+            }
+
+            .button {
+                padding: 10px 20px; /* Ajustar padding para pantallas pequeñas */
+                font-size: 4vw; /* Ajustar tamaño de fuente para pantallas pequeñas */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="question" id="questionText"><span>Paulina</span><br>¿quieres ser mi<br>San Valentín?</div>
+        <div class="buttons">
+            <button class="button yes" id="yesButton">Sí</button>
+            <button class="button no" id="noButton">No</button>
+        </div>
+        <div id="response" class="response">
+            <div id="thankYouMessage" class="hidden">
+                <p>gracias por pasar ese bonito día conmigo.<br>te hice una cartita :D</p>
+                <img src="img/juntos.jpg" alt="Foto juntos" width="300">
+                <a href="img/carta.jpg" class="pdf-link" download>Descargar carta :]</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Partículas de corazones y gatitos -->
+    <script>
+        function createParticle(type) {
+            const particle = document.createElement('img');
+            particle.src = type === 'heart' ? 'img/corazon1.png' : 'img/corazon2.png'; // Reemplaza con tus imágenes
+            particle.className = 'particle';
+            particle.style.width = '40px'; // Ajusta el tamaño
+            particle.style.left = Math.random() * window.innerWidth + 'px';
+            particle.style.top = Math.random() * window.innerHeight + 'px';
+            document.body.appendChild(particle);
+
+            // Eliminar la partícula después de un tiempo
+            setTimeout(() => {
+                particle.remove();
+            }, 5000);
+        }
+
+        // Crear partículas cada segundo
+        setInterval(() => {
+            createParticle('heart');
+            createParticle('cat');
+        }, 1000);
+
+        const yesButton = document.getElementById('yesButton');
+        const noButton = document.getElementById('noButton');
+        const responseDiv = document.getElementById('response');
+        const thankYouMessage = document.getElementById('thankYouMessage');
+        const questionText = document.getElementById('questionText');
+
+        yesButton.onclick = function() {
+            questionText.textContent = "Te amo 💗";
+            yesButton.parentElement.style.display = 'none'; // Ocultar botones
+            thankYouMessage.classList.remove('hidden');
+            responseDiv.style.display = 'block';
+        };
+
+        noButton.onclick = function() {
+            const responses = [
+                { text: "Naaaaa como que no!?!?! XD.", img: "img/no1.jpg" },
+                { text: "pero :'c piénsalo bien!", img: "img/no2.jpg" },
+                { text: "te voy a dar otra oportunidad de elegir XD", img: "img/no3.jpg" },
+                { text: "y yo que iba a llegar con una rica pizza :]", img: "img/no4.jpg" },
+                { text: "daleee :D", img: "img/no5.jpg" },
+                { text: "todavía lo estás pensando!? naaaaa XD", img: "img/no6.jpg" },
+                { text: "ya sabía que lo ibas a apretar XD", img: "img/no7.jpg" },
+                { text: "iiii con que no quieren!", img: "img/no8.jpg" },
+            ];
+            const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+            noButton.textContent = randomResponse.text;
+            noButton.style.position = 'absolute';
+            noButton.style.top = Math.random() * window.innerHeight + 'px';
+            noButton.style.left = Math.random() * window.innerWidth + 'px';
+
+            // Cambiar la imagen al presionar "No"
+            const img = document.createElement('img');
+            img.src = randomResponse.img;
+            img.style.position = 'absolute';
+            img.style.width = '150px';
+            img.style.top = Math.random() * window.innerHeight + 'px';
+            img.style.left = Math.random() * window.innerWidth + 'px';
+            document.body.appendChild(img);
+            setTimeout(() => img.remove(), 3000); // Eliminar la imagen después de 3 segundos
+        };
+    </script>
+</body>
+
+</html>
